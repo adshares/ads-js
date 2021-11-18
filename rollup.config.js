@@ -18,7 +18,7 @@ export default [
     input: 'src/ads.js',
     output: {
       name: 'Ads',
-      file: pkg.browser,
+      file: 'dist/ads.js',
       format: 'iife',
       globals: {
         crypto: 'Crypto'
