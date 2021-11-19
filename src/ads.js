@@ -1,10 +1,18 @@
 import BigNumber from 'bignumber.js'
 import TxEncoder from './tx-encoder'
 import { compareAddressesByNode, formatNumber } from './utils'
-import Tx from './tx'
+import { TX_TYPES, TX_FIELDS } from './tx'
 
-export { default as Crypto } from './crypto'
-export { Tx }
+export {
+  getSecretKey,
+  getPublicKey,
+  getMasterKey,
+  getNextKey,
+  sign,
+  signText,
+  validateSignature
+} from './crypto'
+
 export {
   addressChecksum,
   compareAddresses,
@@ -16,6 +24,16 @@ export {
   validateEthAddress,
   validateKey
 } from './utils'
+
+export {
+  TX_TYPES,
+  TX_FIELDS,
+  encodeCommand,
+  decodeCommand,
+  decodeType,
+  decodeSender,
+  decodeMessage
+} from './tx'
 
 export const BLOCK_LENGTH = 512
 export const DIVIDEND_LENGTH = 2048
@@ -96,24 +114,24 @@ export function calculateFee (command) {
   const encoder = new TxEncoder(command)
   let length
   let fee = 0
-  switch (command[Tx.TX_FIELDS.TYPE]) {
-    case Tx.TX_TYPES.BROADCAST:
-      length = (encoder.encode(Tx.TX_FIELDS.MSG).lastEncodedField.length / 2) - 2
+  switch (command[TX_FIELDS.TYPE]) {
+    case TX_TYPES.BROADCAST:
+      length = (encoder.encode(TX_FIELDS.MSG).lastEncodedField.length / 2) - 2
       fee = TX_MIN_FEE
       if (length > 32) {
         fee += (length - 32) * TX_BROADCAST_FEE
       }
       break
 
-    case Tx.TX_TYPES.CHANGE_ACCOUNT_KEY:
+    case TX_TYPES.CHANGE_ACCOUNT_KEY:
       fee = TX_CHANGE_KEY_FEE
       break
 
-    case Tx.TX_TYPES.SEND_ONE:
-      fee = command[Tx.TX_FIELDS.AMOUNT] * TX_LOCAL_TRANSFER_FEE
-      if (!compareAddressesByNode(command[Tx.TX_FIELDS.SENDER],
-        command[Tx.TX_FIELDS.ADDRESS])) {
-        fee += command[Tx.TX_FIELDS.AMOUNT] * TX_REMOTE_TRANSFER_FEE
+    case TX_TYPES.SEND_ONE:
+      fee = command[TX_FIELDS.AMOUNT] * TX_LOCAL_TRANSFER_FEE
+      if (!compareAddressesByNode(command[TX_FIELDS.SENDER],
+        command[TX_FIELDS.ADDRESS])) {
+        fee += command[TX_FIELDS.AMOUNT] * TX_REMOTE_TRANSFER_FEE
       }
       fee = Math.floor(fee)
       break
@@ -131,7 +149,7 @@ export function calculateFee (command) {
  * @returns {number}
  */
 export function calculateChargedAmount (command) {
-  return calculateFee(command) + parseInt(command[Tx.TX_FIELDS.AMOUNT], 10)
+  return calculateFee(command) + parseInt(command[TX_FIELDS.AMOUNT], 10)
 }
 
 /**
@@ -142,5 +160,5 @@ export function calculateChargedAmount (command) {
  * @returns {number}
  */
 export function calculateReceivedAmount (externalFee, command) {
-  return Math.max(0, parseInt(command[Tx.TX_FIELDS.AMOUNT], 10) - parseInt(externalFee, 10))
+  return Math.max(0, parseInt(command[TX_FIELDS.AMOUNT], 10) - parseInt(externalFee, 10))
 }

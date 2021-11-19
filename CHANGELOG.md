@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.3] - 2021-11-19
+### Changed
+- Export as methods
+
 ## [1.0.2] - 2021-11-19
 ### Fixed
 - Export static methods
@@ -25,8 +29,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changelog
 - Contributing
 
-[Unreleased]: https://github.com/adshares/ads-js/compare/v1.0.2...HEAD
+[Unreleased]: https://github.com/adshares/ads-js/compare/v1.0.3...HEAD
 
+[1.0.3]: https://github.com/adshares/ads-js/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/adshares/ads-js/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/adshares/ads-js/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/adshares/ads-js/releases/tag/v1.0.0

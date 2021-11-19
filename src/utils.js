@@ -1,7 +1,7 @@
-import Hex from './hex'
+import { hexToByte, sanitizeHex } from './hex'
 
 export function crc16 (data) {
-  const d = Hex.hexToByte(Hex.sanitizeHex(data))
+  const d = hexToByte(sanitizeHex(data))
   let crc = 0x1d0f
   for (const b of d) {
     let x = (crc >> 8) ^ b
@@ -20,7 +20,7 @@ export function crc16 (data) {
  * @returns {string} the account address checksum (4 hexadecimal characters)
  */
 export function addressChecksum (nodeId, userAccountId) {
-  return Hex.sanitizeHex(crc16(`${Hex.sanitizeHex(nodeId)}${Hex.sanitizeHex(userAccountId)}`))
+  return sanitizeHex(crc16(`${sanitizeHex(nodeId)}${sanitizeHex(userAccountId)}`))
 }
 
 /**
@@ -31,7 +31,7 @@ export function addressChecksum (nodeId, userAccountId) {
  * @returns {string} formatted address
  */
 export function formatAddress (nodeId, userAccountId) {
-  return `${Hex.sanitizeHex(nodeId)}-${Hex.sanitizeHex(userAccountId)}-${addressChecksum(nodeId, userAccountId)}`
+  return `${sanitizeHex(nodeId)}-${sanitizeHex(userAccountId)}-${addressChecksum(nodeId, userAccountId)}`
 }
 
 /**
@@ -47,11 +47,11 @@ export function splitAddress (address) {
     return null
   }
   return {
-    nodeId: Hex.sanitizeHex(matches[1]),
-    userAccountId: Hex.sanitizeHex(matches[2]),
+    nodeId: sanitizeHex(matches[1]),
+    userAccountId: sanitizeHex(matches[2]),
     checksum: matches[3] === 'XXXX'
       ? addressChecksum(matches[1], matches[2])
-      : Hex.sanitizeHex(matches[3])
+      : sanitizeHex(matches[3])
   }
 }
 

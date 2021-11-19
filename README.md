@@ -27,16 +27,16 @@ yarn add @adshares/ads
 ## Usage
 
 ```js
-import { validateAddress, splitAddress, Crypto, Tx } from '@adshares/ads';
+import { validateAddress, splitAddress, sign, decodeCommand } from '@adshares/ads';
 
 const valid = validateAddress('0000-00000000-313E')
 const parts = splitAddress('foo_address')
 
 const secretKey = '9F7D754820842E3D141FA7BCF6A3BA731EFE77914AC67E00D1D223E7ADB6FA48'
-const signature = Crypto.sign(secretKey, '74657374')
+const signature = sign(secretKey, '74657374')
 
 const data = '0301000000000001000000A1679B5B010000'
-const command = Tx.decodeCommand(data)
+const command = decodeCommand(data)
 ```
 
 ### Contributing

@@ -1,4 +1,4 @@
-import Hex from './hex'
+import { fixByteOrder } from './hex'
 import { TransactionDataError } from './errors'
 import { TX_FIELDS, TX_TYPES, TX_TYPES_MAP } from './const'
 import { splitAddress, validateAddress, validateKey } from './utils'
@@ -32,22 +32,22 @@ export default class TxEncoder {
           throw new TransactionDataError(`Invalid ADS address ${val}`)
         }
         const address = splitAddress(val)
-        const node = Hex.fixByteOrder(this.pad(address.nodeId, 4))
-        const user = Hex.fixByteOrder(this.pad(address.userAccountId, 8))
+        const node = fixByteOrder(this.pad(address.nodeId, 4))
+        const user = fixByteOrder(this.pad(address.userAccountId, 8))
         data = node + user
         break
       }
       case TX_FIELDS.AMOUNT: {
         val = (new BigNumber(val)).toString(16)
         this.#validateLength(fieldName, val, 16)
-        data = Hex.fixByteOrder(this.pad(val, 16))
+        data = fixByteOrder(this.pad(val, 16))
         break
       }
       case TX_FIELDS.MESSAGE_ID:
       case TX_FIELDS.NODE_MESSAGE_ID: {
         val = val.toString(16)
         this.#validateLength(fieldName, val, 8)
-        data = Hex.fixByteOrder(this.pad(val, 8))
+        data = fixByteOrder(this.pad(val, 8))
         break
       }
       case TX_FIELDS.MSG: {
@@ -62,7 +62,7 @@ export default class TxEncoder {
             msg = `0${msg}`
           }
           len /= 2
-          data = Hex.fixByteOrder(this.pad(len.toString(16), 4))
+          data = fixByteOrder(this.pad(len.toString(16), 4))
           data += msg
         }
         break
@@ -70,7 +70,7 @@ export default class TxEncoder {
       case TX_FIELDS.NODE_ID: {
         val = val.toString(16)
         this.#validateLength(fieldName, val, 4)
-        data = Hex.fixByteOrder(this.pad(val, 4))
+        data = fixByteOrder(this.pad(val, 4))
         break
       }
       case TX_FIELDS.PUBLIC_KEY: {
@@ -83,7 +83,7 @@ export default class TxEncoder {
       case TX_FIELDS.TIME: {
         const date = typeof val === 'object' ? val : new Date(val)
         const time = Math.floor(date.getTime() / 1000)
-        data = Hex.fixByteOrder(this.pad(time.toString(16), 8))
+        data = fixByteOrder(this.pad(time.toString(16), 8))
         break
       }
       case TX_FIELDS.TYPE: {
