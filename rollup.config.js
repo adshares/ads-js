@@ -48,8 +48,7 @@ export default [
     output: [
       {
         file: pkg.main,
-        format: 'cjs',
-        exports: 'default'
+        format: 'cjs'
       },
       {
         file: pkg.module,

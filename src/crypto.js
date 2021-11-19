@@ -2,7 +2,7 @@ import NaCl from 'tweetnacl'
 import CryptoJS from 'crypto-js'
 import Hex from './hex'
 
-export class Crypto {
+export default class Crypto {
   static ED25519_CURVE = 'ed25519 seed'
   static HARDENED_OFFSET = 0x80000000
   static pathRegex = /^m(\/[0-9]+')+$/
@@ -137,5 +137,3 @@ export class Crypto {
     )
   }
 }
-
-export default Crypto
