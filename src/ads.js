@@ -4,6 +4,10 @@ import { compareAddressesByNode, formatNumber } from './utils'
 import { TX_TYPES, TX_FIELDS } from './tx'
 
 export {
+  ABI
+} from './const'
+
+export {
   getSecretKey,
   getPublicKey,
   getMasterKey,

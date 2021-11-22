@@ -1,6 +1,6 @@
 {
   "name": "@adshares/ads",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "display-name": "ADS JS Library",
   "description": "JavaScript ES2015 library for the ADS blockchain.",
   "author": "Adshares <dev@adshares.net>",
